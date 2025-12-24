@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 320px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Attendance Calculator</h2>
+
+    <label>Total Classes</label>
+    <input type="number" id="total" placeholder="Enter total classes">
+
+    <label>Classes Attended</label>
+    <input type="number" id="attended" placeholder="Enter attended classes">
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+function calculate() {
+    let total = document.getElementById("total").value;
+    let attended = document.getElementById("attended").value;
+    let result = document.getElementById("result");
+
+    if (total === "" || attended === "" || total <= 0 || attended < 0) {
+        result.innerHTML = "Please enter valid numbers.";
+        return;
+    }
+
+    let percentage = (attended / total) * 100;
+    percentage = percentage.toFixed(2);
+
+    let required = 0;
+    if (percentage < 75) {
+        while ((attended + required) / (total + required) < 0.75) {
+            required++;
+        }
+        result.innerHTML = `
+            Attendance: ${percentage}% <br>
+            Classes needed to reach 75%: ${required}
+        `;
+    } else {
+        result.innerHTML = `
+            Attendance: ${percentage}% <br>
+            You are safe 👍
+        `;
+    }
+}
+</script>
+
+</body>
+</html>
